@@ -163,10 +163,7 @@ pub fn Rc(comptime T: type) type {
             /// Creates a new weak reference object from a pointer to it's underlying value,
             /// without increasing the weak count.
             pub fn fromValuePtr(value: *T, alloc: std.mem.Allocator) Weak {
-                return .{
-                    .inner = @fieldParentPtr(Inner, "value", value),
-                    .alloc = alloc
-                };
+                return .{ .inner = @fieldParentPtr(Inner, "value", value), .alloc = alloc };
             }
 
             /// Gets the number of strong references to this value.
@@ -240,7 +237,7 @@ pub fn Rc(comptime T: type) type {
             }
 
             inline fn innerPtr(self: *const Weak) ?*Inner {
-                return @ptrCast(?*Inner, self.inner);
+                return @as(?*Inner, @ptrCast(self.inner));
             }
         };
     };
@@ -397,10 +394,7 @@ pub fn Arc(comptime T: type) type {
             /// Creates a new weak reference object from a pointer to it's underlying value,
             /// without increasing the weak count.
             pub fn fromValuePtr(value: *T, alloc: std.mem.Allocator) Weak {
-                return .{
-                    .inner = @fieldParentPtr(Inner, "value", value),
-                    .alloc = alloc
-                };
+                return .{ .inner = @fieldParentPtr(Inner, "value", value), .alloc = alloc };
             }
 
             /// Gets the number of strong references to this value.
@@ -480,7 +474,7 @@ pub fn Arc(comptime T: type) type {
             }
 
             inline fn innerPtr(self: *const Weak) ?*Inner {
-                return @ptrCast(?*Inner, self.inner);
+                return @ptrCast(self.inner);
             }
         };
     };
